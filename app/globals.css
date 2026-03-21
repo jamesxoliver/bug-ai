@@ -1,26 +1,140 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-warm-bg: #fafafa;
+  --color-warm-card: #f2f2f7;
+  --color-warm-border: #d1d1d6;
+  --color-warm-text: #1d1d1f;
+  --color-warm-muted: #6e6e73;
+  --color-warm-accent: #5ba4d9;
+  --color-warm-glow: #5ba4d910;
+
+  --font-sans: "Nunito Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Apple-style easing */
+:root {
+  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-warm-bg);
+  color: var(--color-warm-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Staggered reveal animations — spring easing for that premium deceleration */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+@keyframes placeholder-fade {
+  0% { opacity: 0.4; }
+  15% { opacity: 0.4; }
+  100% { opacity: 0.4; }
+}
+
+.stagger-1 { animation: rise 0.5s var(--ease-spring) 0.05s both; }
+.stagger-2 { animation: rise 0.5s var(--ease-spring) 0.15s both; }
+.stagger-3 { animation: rise 0.5s var(--ease-spring) 0.3s both; }
+.stagger-4 { animation: settle 0.6s var(--ease-spring) 0.5s both; }
+.stagger-5 { animation: rise 0.4s var(--ease-spring) 0.7s both; }
+
+.animate-pulse-text {
+  animation: pulse-text 2s ease-in-out infinite;
+}
+
+/* Follow-up input reveal */
+.animate-in {
+  animation: rise 0.35s var(--ease-spring) both;
+}
+
+/* Page entrance — the input screen fades up on load */
+.page-enter {
+  animation: rise 0.6s var(--ease-out-expo) both;
+}
+
+/* State crossfade — wrap content that swaps between input/result */
+.view-transition {
+  animation: fade-in 0.3s var(--ease-in-out) both;
+}
+
+/* History item expand with smooth height */
+.expand-content {
+  animation: rise 0.35s var(--ease-spring) both;
+  overflow: hidden;
+}
+
+/* Premium button press — slightly more travel with spring return */
+.press {
+  transition: transform 0.15s var(--ease-spring);
+}
+.press:active {
+  transform: scale(0.96);
+}
+
+/* Smooth focus rings */
+textarea:focus,
+input:focus {
+  transition: box-shadow 0.2s var(--ease-in-out), border-color 0.2s var(--ease-in-out);
+}
+
+/* Smooth placeholder transitions */
+textarea::placeholder {
+  transition: opacity 0.3s var(--ease-in-out);
+}
+textarea:focus::placeholder {
+  opacity: 0.3;
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-warm-accent);
+  color: white;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
 }
