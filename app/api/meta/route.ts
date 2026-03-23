@@ -108,7 +108,7 @@ export async function POST(req: NextRequest) {
     const userMessage = `Here are the ${recent.length} most recent cognitive distortion entries from one person:\n\n${summary}${context}\n\nFind the root pattern.`;
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-4-20250514",
       max_tokens: 800,
       system: META_PROMPT,
       messages: [{ role: "user", content: userMessage }],
@@ -122,7 +122,7 @@ export async function POST(req: NextRequest) {
     if (!isValidResult(result)) {
       // Retry with prefill
       const retry = await client.messages.create({
-        model: "claude-sonnet-4-6",
+        model: "claude-sonnet-4-20250514",
         max_tokens: 800,
         system: META_PROMPT,
         messages: [

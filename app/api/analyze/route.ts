@@ -126,7 +126,7 @@ export async function POST(req: NextRequest) {
     }
 
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6",
+      model: "claude-sonnet-4-20250514",
       max_tokens: 400,
       system: SYSTEM_PROMPT,
       messages,
@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
     if (!isValidResult(result)) {
       // Retry once
       const retry = await client.messages.create({
-        model: "claude-sonnet-4-6",
+        model: "claude-sonnet-4-20250514",
         max_tokens: 400,
         system: SYSTEM_PROMPT,
         messages,
