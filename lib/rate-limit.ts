@@ -1,5 +1,5 @@
 const WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS = 10; // per window per IP
+const MAX_REQUESTS = 3; // per window per IP
 
 const hits = new Map<string, { count: number; resetAt: number }>();
 
